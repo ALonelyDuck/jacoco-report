@@ -1,4 +1,4 @@
-name: 'JaCoCo Report'
+name: 'JaCoCo Report Custom'
 description: 'Publishes the JaCoCo report as a comment in the Pull Request'
 inputs:
   paths:
@@ -48,6 +48,8 @@ outputs:
     description: 'The overall coverage of the project'
   coverage-changed-files:
     description: 'The total coverage of all changed files'
+  coverage-changed-percentage:
+    description: 'The coverage percentage of the lines changed in the pull request'
 
 runs:
   using: 'node20'
