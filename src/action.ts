@@ -99,7 +99,7 @@ export async function action(): Promise<void> {
     )
     core.setOutput(
       'coverage-changed-percentage',
-      parseFloat(project.changed.percentage.toFixed(2))
+      parseFloat((project.changed.percentage ?? 0).toFixed(2))
     );
 
     const skip = skipIfNoChanges && project.modules.length === 0
