@@ -26,8 +26,8 @@ function getModuleTable(
   minCoverage: MinCoverage,
   emoji: Emoji
 ): string {
-  const tableHeader = '|Module|Coverage||'
-  const tableStructure = '|:-|:-|:-:|'
+  const tableHeader = '|Module|Coverage|Changed Coverage||'
+  const tableStructure = '|:-|:-|:-|:-:|'
   let table = `${tableHeader}\n${tableStructure}`
   for (const module of modules) {
     const coverageDifference = getCoverageDifference(
@@ -49,12 +49,13 @@ function getModuleTable(
     coverageDiff: number,
     changedCoverage: number | undefined
   ): void {
-    const status = getStatus(changedCoverage, minCoverage.changed, emoji)
+    const status = getStatus(overallCoverage, minCoverage.overall, emoji)
     let coveragePercentage = `${formatCoverage(overallCoverage)}`
+    let changedPercentage = `${formatCoverage(changedCoverage)}`
     if (shouldShow(coverageDiff)) {
       coveragePercentage += ` **\`${formatCoverage(coverageDiff)}\`**`
     }
-    const row = `|${name}|${coveragePercentage}|${status}|`
+    const row = `|${name}|${coveragePercentage}|${changedPercentage}|${status}|`
     table = `${table}\n${row}`
   }
 }
@@ -65,11 +66,11 @@ function getFileTable(
   emoji: Emoji
 ): string {
   const tableHeader = project.isMultiModule
-    ? '|Module|File|Coverage||'
-    : '|File|Coverage||'
+    ? '|Module|File|Coverage|Changed Coverage||'
+    : '|File|Coverage|Changed Coverage||'
   const tableStructure = project.isMultiModule
-    ? '|:-|:-|:-|:-:|'
-    : '|:-|:-|:-:|'
+    ? '|:-|:-|:-|:-|:-:|'
+    : '|:-|:-|:-|:-:|'
   let table = `${tableHeader}\n${tableStructure}`
   for (const module of project.modules) {
     for (let index = 0; index < module.files.length; index++) {
@@ -106,12 +107,13 @@ function getFileTable(
   ): void {
     const status = getStatus(changedCoverage, minCoverage.changed, emoji)
     let coveragePercentage = `${formatCoverage(overallCoverage)}`
+    let changedPercentage = `${formatCoverage(changedCoverage)}`
     if (shouldShow(coverageDiff)) {
       coveragePercentage += ` **\`${formatCoverage(coverageDiff)}\`**`
     }
     const row = isMultiModule
-      ? `|${moduleName}|${fileName}|${coveragePercentage}|${status}|`
-      : `|${fileName}|${coveragePercentage}|${status}|`
+      ? `|${moduleName}|${fileName}|${coveragePercentage}|${changedPercentage}|${status}|`
+      : `|${fileName}|${coveragePercentage}|${changedPercentage}|${status}|`
     table = `${table}\n${row}`
   }
 }
